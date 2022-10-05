@@ -1,6 +1,6 @@
 overwrite: true
 errorsOnly: true
-schema: dist/schema.js
+schema: build-schema.js
 # This should be updated to match your client files
 generates:
   # This will take your schema and print an SDL schema.
