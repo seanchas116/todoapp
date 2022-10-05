@@ -1,3 +1,3 @@
 module.exports = require("@boost/module").requireModule(
-  require.resolve("./schema.ts")
+  require.resolve("./src/schema.ts")
 );
