@@ -1,5 +1,6 @@
 import SchemaBuilder from "@pothos/core";
 import { User } from "@prisma/client";
+import { prisma } from "./prisma";
 
 const builder = new SchemaBuilder<{
   Objects: {
@@ -20,7 +21,7 @@ builder.queryType({
   fields: (t) => ({
     users: t.field({
       type: ["User"],
-      resolve: async () => [],
+      resolve: async () => prisma.user.findMany(),
     }),
   }),
 });
