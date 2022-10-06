@@ -19,8 +19,8 @@ export class QueryMobxView<T> {
   }
 
   readonly query: ObservableQuery;
-  readonly mapper: (result: any) => T;
-  readonly atom: IAtom;
+  private readonly mapper: (result: any) => T;
+  private readonly atom: IAtom;
   private _subscription: Subscription | undefined;
   private _value: T;
 
