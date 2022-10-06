@@ -25,12 +25,12 @@ const App = observer(function App() {
       <main className="p-8">
         <div className="w-80 m-auto">
           <div className="flex gap-1 mb-4">
-            <input className="flex-1 h-8 border border-gray-300 rounded" />
+            <input className="flex-1 h-8 border border-gray-300 rounded px-1" />
             <button className="h-8 bg-blue-500 rounded text-white px-3 py-1">
               Add
             </button>
           </div>
-          <ul>
+          <ul className="px-0.5">
             <li className="text-xl flex items-center gap-2 text-gray-900">
               <input type="checkbox" />
               Todo 1
