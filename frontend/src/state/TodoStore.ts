@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client/core";
 import { client } from "../util/apollo";
-import { ZenMobxBridge } from "../util/mobx";
+import { QueryMobxView } from "../util/mobx";
 
 interface Todo {
   id: number;
@@ -25,8 +25,9 @@ export class TodoStore {
     `,
   });
 
-  readonly todos = new ZenMobxBridge<Todo[]>(
-    this.query.map((result) => result.data.todos),
+  readonly todos = new QueryMobxView<Todo[]>(
+    this.query,
+    (result) => result.data.todos,
     []
   );
 
