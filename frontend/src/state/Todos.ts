@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { observable } from "mobx";
+import { observable, toJS } from "mobx";
 import { client } from "../util/apollo";
 
 interface Todo {
@@ -27,6 +27,24 @@ export class Todos {
         }
       `,
     });
-    this.todos.push(...todos.data.todos);
+    this.todos.replace(todos.data.todos);
+    console.log(toJS(this.todos));
+  }
+
+  async create(title: string) {
+    const todo = await client.mutate({
+      mutation: gql`
+        mutation {
+          createTodo(title: "${title}") {
+            id
+            createdAt
+            updatedAt
+            title
+            status
+          }
+        }
+      `,
+    });
+    await this.fetch();
   }
 }
