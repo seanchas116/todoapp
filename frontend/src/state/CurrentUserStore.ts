@@ -9,24 +9,21 @@ const googleAuthProvider = new GoogleAuthProvider();
 
 export class CurrentUserStore {
   constructor() {
-    void this.init();
     makeObservable(this);
+    auth.onAuthStateChanged((user) => {
+      this.isAuthenticated = user !== null;
+      this.refreshAfterLogin();
+    });
   }
 
   @observable isAuthenticated = false;
 
-  async init() {
-    // TODO
-  }
-
   async login() {
     await signInWithPopup(auth, googleAuthProvider);
 
-    console.log(auth.currentUser);
-
     this.isAuthenticated = true;
     await this.createUser();
-    await appState.todoStore.query.refetch();
+    await this.refreshAfterLogin();
   }
 
   async logout() {
@@ -44,5 +41,9 @@ export class CurrentUserStore {
         }
       `,
     });
+  }
+
+  private async refreshAfterLogin() {
+    await appState.todoStore.query.refetch();
   }
 }
