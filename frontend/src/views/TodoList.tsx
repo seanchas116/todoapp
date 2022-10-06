@@ -6,8 +6,6 @@ import { useState } from "react";
 export const TodoList = observer(function TodoList() {
   const [newTitle, setNewTitle] = useState("");
 
-  console.log(appState.todos.todos.value);
-
   return (
     <main className="p-8">
       <div className="w-80 m-auto">
