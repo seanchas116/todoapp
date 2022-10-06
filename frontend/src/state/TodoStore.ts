@@ -64,6 +64,9 @@ export class TodoStore {
           }
         }
       `,
+      optimisticResponse: {
+        updateTodo: todo,
+      },
     });
   }
 }
