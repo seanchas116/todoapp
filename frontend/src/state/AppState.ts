@@ -1,34 +1,8 @@
-import {
-  ApolloClient,
-  createHttpLink,
-  getApolloContext,
-  gql,
-  InMemoryCache,
-} from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
+import { gql } from "@apollo/client";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { makeObservable, observable } from "mobx";
-import { app, auth } from "./firebase";
-
-const httpLink = createHttpLink({
-  uri: "http://localhost:4000/graphql",
-});
-
-const authLink = setContext(async (_, { headers }) => {
-  const token = await auth.currentUser?.getIdToken(true);
-  console.log(token);
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : "",
-    },
-  };
-});
-
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
-});
+import { client } from "../util/apollo";
+import { auth } from "../util/firebase";
 
 const googleAuthProvider = new GoogleAuthProvider();
 

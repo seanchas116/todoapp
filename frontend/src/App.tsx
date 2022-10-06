@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { appState } from "./AppState";
+import { appState } from "./state/AppState";
 
 const App = observer(function App() {
   return (
