@@ -22,6 +22,30 @@ const App = observer(function App() {
           </button>
         )}
       </header>
+      <main className="p-8">
+        <div className="w-80 m-auto">
+          <div className="flex gap-1 mb-4">
+            <input className="flex-1 h-8 border border-gray-300 rounded" />
+            <button className="h-8 bg-blue-500 rounded text-white px-3 py-1">
+              Add
+            </button>
+          </div>
+          <ul>
+            <li className="text-xl flex items-center gap-2 text-gray-900">
+              <input type="checkbox" />
+              Todo 1
+            </li>
+            <li className="text-xl flex items-center gap-2 text-gray-900">
+              <input type="checkbox" />
+              Todo 2
+            </li>
+            <li className="text-xl flex items-center gap-2 line-through text-gray-300">
+              <input type="checkbox" checked />
+              Todo 3
+            </li>
+          </ul>
+        </div>
+      </main>
     </div>
   );
 });
