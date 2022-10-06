@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from "@apollo/client/core";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { makeObservable, observable } from "mobx";
 import { client } from "../util/apollo";

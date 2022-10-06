@@ -1,4 +1,8 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  createHttpLink,
+  InMemoryCache,
+} from "@apollo/client/core";
 import { setContext } from "@apollo/client/link/context";
 import { auth } from "./firebase";
 
