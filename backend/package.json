@@ -15,7 +15,8 @@
   "dependencies": {
     "@graphql-yoga/node": "^2.13.13",
     "@pothos/core": "^3.22.5",
-    "@prisma/client": "^4.4.0"
+    "@prisma/client": "^4.4.0",
+    "firebase-admin": "^11.0.1"
   },
   "devDependencies": {
     "@boost/module": "^4.0.0",

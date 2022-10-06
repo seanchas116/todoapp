@@ -3,6 +3,10 @@ import { schema } from "./schema";
 
 const server = createServer({
   schema,
+  context: async ({ req }) => ({
+    // This part is up to you!
+    currentUser: await getUserFromAuthHeader(req.headers.authorization),
+  }),
 });
 
 server.start();
