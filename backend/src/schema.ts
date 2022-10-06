@@ -18,6 +18,17 @@ builder.objectType("User", {
   }),
 });
 
+builder.objectType("Todo", {
+  fields: (t) => ({
+    id: t.exposeID("id"),
+    createdAt: t.field({
+      type: "String",
+      resolve: (todo) => todo.createdAt.toISOString(),
+    }),
+    title: t.exposeString("title"),
+  }),
+});
+
 builder.queryType({
   fields: (t) => ({
     users: t.field({

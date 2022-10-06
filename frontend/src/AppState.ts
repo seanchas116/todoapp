@@ -1,3 +1,4 @@
+import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 import createAuth0Client from "@auth0/auth0-spa-js";
 import { makeObservable, observable } from "mobx";
 
@@ -7,10 +8,27 @@ const auth0 = await createAuth0Client({
   redirect_uri: window.location.origin,
 });
 
+const client = new ApolloClient({
+  uri: "http://localhost:4000/graphql",
+  cache: new InMemoryCache(),
+});
+
 export class AppState {
   constructor() {
     void this.init();
     makeObservable(this);
+
+    client
+      .query({
+        query: gql`
+          query {
+            todos {
+              title
+            }
+          }
+        `,
+      })
+      .then((result) => console.log(result));
   }
 
   @observable isAuthenticated = false;
