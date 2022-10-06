@@ -1,5 +1,6 @@
 import admin from "firebase-admin";
 
+// TODO: do not pass credentials in production (Cloud Run)
 admin.initializeApp({
   credential: admin.credential.cert(require("../service-account.json")),
 });
