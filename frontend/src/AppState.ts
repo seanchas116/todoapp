@@ -51,12 +51,25 @@ export class AppState {
     console.log(auth.currentUser);
 
     this.isAuthenticated = true;
+    await this.createUser();
     await this.fetchTodos();
   }
 
   async logout() {
     await auth.signOut();
     this.isAuthenticated = false;
+  }
+
+  async createUser() {
+    await client.mutate({
+      mutation: gql`
+        mutation {
+          createUser {
+            name
+          }
+        }
+      `,
+    });
   }
 
   async fetchTodos() {

@@ -49,7 +49,7 @@ builder.queryType({
 
 builder.mutationType({
   fields: (t) => ({
-    signUp: t.field({
+    createUser: t.field({
       type: "User",
       resolve: async (_1, _2, context) => {
         if (!context.currentUser) {
