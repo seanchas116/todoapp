@@ -26,7 +26,7 @@ export class CurrentUser {
 
     this.isAuthenticated = true;
     await this.createUser();
-    await appState.todos.fetch();
+    await appState.todos.query.refetch();
   }
 
   async logout() {

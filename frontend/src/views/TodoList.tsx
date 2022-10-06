@@ -6,6 +6,8 @@ import { useState } from "react";
 export const TodoList = observer(function TodoList() {
   const [newTitle, setNewTitle] = useState("");
 
+  console.log(appState.todos.todos.value);
+
   return (
     <main className="p-8">
       <div className="w-80 m-auto">
@@ -26,7 +28,7 @@ export const TodoList = observer(function TodoList() {
         </div>
 
         <ul className="px-0.5">
-          {appState.todos.todos.map((todo) => (
+          {appState.todos.todos.value.map((todo) => (
             <li
               className={clsx("text-xl flex items-center gap-2", {
                 "line-through text-gray-400": todo.status === "done",

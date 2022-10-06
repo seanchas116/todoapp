@@ -1,6 +1,7 @@
 import { gql } from "@apollo/client";
 import { observable, toJS } from "mobx";
 import { client } from "../util/apollo";
+import { ZenMobxBridge } from "../util/mobx";
 
 interface Todo {
   id: number;
@@ -11,25 +12,24 @@ interface Todo {
 }
 
 export class Todos {
-  readonly todos = observable.array<Todo>();
-
-  async fetch() {
-    const todos = await client.query({
-      query: gql`
-        query {
-          todos {
-            id
-            createdAt
-            updatedAt
-            title
-            status
-          }
+  readonly query = client.watchQuery({
+    query: gql`
+      query {
+        todos {
+          id
+          createdAt
+          updatedAt
+          title
+          status
         }
-      `,
-    });
-    this.todos.replace(todos.data.todos);
-    console.log(toJS(this.todos));
-  }
+      }
+    `,
+  });
+
+  readonly todos = new ZenMobxBridge<Todo[]>(
+    this.query.map((result) => result.data.todos),
+    []
+  );
 
   async create(title: string) {
     const todo = await client.mutate({
@@ -45,6 +45,6 @@ export class Todos {
         }
       `,
     });
-    await this.fetch();
+    await this.query.refetch();
   }
 }
