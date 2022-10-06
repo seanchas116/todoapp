@@ -7,7 +7,7 @@ import { appState } from "./AppState";
 
 const googleAuthProvider = new GoogleAuthProvider();
 
-export class CurrentUser {
+export class CurrentUserStore {
   constructor() {
     void this.init();
     makeObservable(this);
@@ -26,7 +26,7 @@ export class CurrentUser {
 
     this.isAuthenticated = true;
     await this.createUser();
-    await appState.todos.query.refetch();
+    await appState.todoStore.query.refetch();
   }
 
   async logout() {

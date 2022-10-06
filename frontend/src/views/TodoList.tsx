@@ -18,7 +18,7 @@ export const TodoList = observer(function TodoList() {
           <button
             className="h-8 bg-blue-500 hover:bg-blue-700 rounded text-white px-3 py-1"
             onClick={() => {
-              appState.todos.create(newTitle);
+              appState.todoStore.create(newTitle);
             }}
           >
             Add
@@ -26,7 +26,7 @@ export const TodoList = observer(function TodoList() {
         </div>
 
         <ul className="px-0.5">
-          {appState.todos.todos.value.map((todo) => (
+          {appState.todoStore.todos.value.map((todo) => (
             <li
               className={clsx("text-xl flex items-center gap-2", {
                 "line-through text-gray-400": todo.status === "done",
@@ -37,7 +37,7 @@ export const TodoList = observer(function TodoList() {
                 type="checkbox"
                 checked={todo.status === "done"}
                 onClick={() => {
-                  appState.todos.update({
+                  appState.todoStore.update({
                     ...todo,
                     status: todo.status === "done" ? "pending" : "done",
                   });

@@ -10,7 +10,7 @@ interface Todo {
   status: "done" | "pending";
 }
 
-export class Todos {
+export class TodoStore {
   readonly query = client.watchQuery({
     query: gql`
       query {

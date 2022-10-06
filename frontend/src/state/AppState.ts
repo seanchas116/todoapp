@@ -1,11 +1,11 @@
-import { CurrentUser } from "./CurrentUser";
-import { Todos } from "./Todos";
+import { CurrentUserStore } from "./CurrentUserStore";
+import { TodoStore } from "./TodoStore";
 
 export class AppState {
   constructor() {}
 
-  readonly currentUser = new CurrentUser();
-  readonly todos = new Todos();
+  readonly currentUserStore = new CurrentUserStore();
+  readonly todoStore = new TodoStore();
 }
 
 export const appState = new AppState();

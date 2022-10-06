@@ -8,17 +8,17 @@ const App = observer(function App() {
     <div className="">
       <header className="p-4 flex items-center justify-between border-b border-gray-200">
         <h1 className="text-xl font-bold">Todo App</h1>
-        {appState.currentUser.isAuthenticated ? (
+        {appState.currentUserStore.isAuthenticated ? (
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded"
-            onClick={() => appState.currentUser.logout()}
+            onClick={() => appState.currentUserStore.logout()}
           >
             Sign Out
           </button>
         ) : (
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded"
-            onClick={() => appState.currentUser.login()}
+            onClick={() => appState.currentUserStore.login()}
           >
             Sign In
           </button>
