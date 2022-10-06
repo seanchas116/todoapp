@@ -31,7 +31,7 @@ export class TodoStore {
   );
 
   async create(title: string) {
-    const todo = await client.mutate({
+    await client.mutate({
       mutation: gql`
         mutation {
           createTodo(title: "${title}") {
