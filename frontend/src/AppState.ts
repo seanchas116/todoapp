@@ -1,25 +1,24 @@
 import {
   ApolloClient,
   createHttpLink,
+  getApolloContext,
   gql,
   InMemoryCache,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import createAuth0Client from "@auth0/auth0-spa-js";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { makeObservable, observable } from "mobx";
+import { app } from "./firebase";
 
-const auth0 = await createAuth0Client({
-  domain: "seanchas116.auth0.com",
-  client_id: "zccoMdGHuJIdz98w3CV8TCCtHFGU323m",
-  redirect_uri: window.location.origin,
-});
+const provider = new GoogleAuthProvider();
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/graphql",
 });
 
 const authLink = setContext(async (_, { headers }) => {
-  const token = await auth0.getTokenSilently();
+  const token = await getAuth(app).currentUser?.getIdToken(true);
+  console.log(token);
   return {
     headers: {
       ...headers,
@@ -43,19 +42,21 @@ export class AppState {
   @observable isAuthenticated = false;
 
   async init() {
-    this.accessToken = await auth0.getTokenSilently();
-    this.isAuthenticated = true;
-    await this.fetchTodos();
+    // TODO
   }
 
   async login() {
-    await auth0.loginWithPopup();
+    await signInWithPopup(getAuth(app), provider);
+
+    console.log(getAuth(app).currentUser);
+
     this.isAuthenticated = true;
     await this.fetchTodos();
   }
 
   async logout() {
-    await auth0.logout();
+    await getAuth(app).signOut();
+    this.isAuthenticated = false;
   }
 
   async fetchTodos() {
