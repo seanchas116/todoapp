@@ -1,4 +1,5 @@
 import admin from "firebase-admin";
+import { CurrentUser } from "./context";
 
 // TODO: do not pass credentials in production (Cloud Run)
 admin.initializeApp({
@@ -7,7 +8,7 @@ admin.initializeApp({
 
 export async function getUserFromAuthHeader(
   authHeader?: string
-): Promise<string | undefined> {
+): Promise<CurrentUser | undefined> {
   if (!authHeader) {
     return undefined;
   }
@@ -16,5 +17,10 @@ export async function getUserFromAuthHeader(
 
   const decoded = await admin.auth().verifyIdToken(token);
   console.log(decoded);
-  return decoded.uid;
+
+  return {
+    uid: decoded.uid,
+    name: decoded.name,
+    email: decoded.email,
+  };
 }
