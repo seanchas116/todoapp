@@ -1,5 +1,5 @@
 import SchemaBuilder from "@pothos/core";
-import { Todo, User } from "@prisma/client";
+import { Todo, TodoStatus, User } from "@prisma/client";
 import { Context } from "./context";
 import { prisma } from "./prisma";
 
@@ -70,6 +70,64 @@ builder.mutationType({
             id,
             name,
           },
+        });
+      },
+    }),
+    createTodo: t.field({
+      type: "Todo",
+      args: {
+        title: t.arg.string({ required: true }),
+      },
+      resolve: async (_1, { title }, context) => {
+        if (!context.currentUser) {
+          throw new Error("Not authenticated");
+        }
+
+        return prisma.todo.create({
+          data: {
+            title,
+            userId: context.currentUser.uid,
+          },
+        });
+      },
+    }),
+    updateTodo: t.field({
+      type: "Todo",
+      args: {
+        id: t.arg.int({ required: true }),
+        title: t.arg.string({ required: true }),
+        status: t.arg.string({ required: true }),
+      },
+      resolve: async (_1, { id, title, status }, context) => {
+        if (!context.currentUser) {
+          throw new Error("Not authenticated");
+        }
+
+        if (!(status in TodoStatus)) {
+          throw new Error("Invalid status");
+        }
+
+        return prisma.todo.update({
+          where: { id },
+          data: {
+            title,
+            status: status as TodoStatus,
+          },
+        });
+      },
+    }),
+    deleteTodo: t.field({
+      type: "Todo",
+      args: {
+        id: t.arg.int({ required: true }),
+      },
+      resolve: async (_1, { id }, context) => {
+        if (!context.currentUser) {
+          throw new Error("Not authenticated");
+        }
+
+        return prisma.todo.delete({
+          where: { id },
         });
       },
     }),
