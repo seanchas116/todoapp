@@ -44,9 +44,20 @@ builder.queryType({
     }),
     todos: t.field({
       type: ["Todo"],
-      resolve: async () => {
+      resolve: async (_1, _2, context) => {
+        if (!context.currentUser) {
+          throw new Error("Not authenticated");
+        }
+
         // TODO: filter by current user
-        return prisma.todo.findMany();
+        return prisma.todo.findMany({
+          where: {
+            userId: context.currentUser.uid,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        });
       },
     }),
   }),
