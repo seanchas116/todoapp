@@ -1,4 +1,5 @@
 import { observer } from "mobx-react-lite";
+import { clsx } from "clsx";
 import { appState } from "./state/AppState";
 
 const App = observer(function App() {
@@ -33,24 +34,16 @@ const App = observer(function App() {
 
           <ul className="px-0.5">
             {appState.todos.todos.map((todo) => (
-              <li className="text-xl flex items-center gap-2 text-gray-900">
-                <input type="checkbox" />
+              <li
+                className={clsx("text-xl flex items-center gap-2", {
+                  "line-through text-gray-400": todo.status === "done",
+                  "text-gray-900": todo.status === "pending",
+                })}
+              >
+                <input type="checkbox" checked={todo.status === "done"} />
                 {todo.title}
               </li>
             ))}
-
-            <li className="text-xl flex items-center gap-2 text-gray-900">
-              <input type="checkbox" />
-              Todo 1
-            </li>
-            <li className="text-xl flex items-center gap-2 text-gray-900">
-              <input type="checkbox" />
-              Todo 2
-            </li>
-            <li className="text-xl flex items-center gap-2 line-through text-gray-300">
-              <input type="checkbox" checked />
-              Todo 3
-            </li>
           </ul>
         </div>
       </main>

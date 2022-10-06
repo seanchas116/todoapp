@@ -27,6 +27,6 @@ export class Todos {
         }
       `,
     });
-    this.todos.push(todos.data);
+    this.todos.push(...todos.data.todos);
   }
 }
