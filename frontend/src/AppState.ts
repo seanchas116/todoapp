@@ -6,18 +6,16 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { makeObservable, observable } from "mobx";
-import { app } from "./firebase";
-
-const provider = new GoogleAuthProvider();
+import { app, auth } from "./firebase";
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/graphql",
 });
 
 const authLink = setContext(async (_, { headers }) => {
-  const token = await getAuth(app).currentUser?.getIdToken(true);
+  const token = await auth.currentUser?.getIdToken(true);
   console.log(token);
   return {
     headers: {
@@ -31,6 +29,8 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
+
+const googleAuthProvider = new GoogleAuthProvider();
 
 export class AppState {
   constructor() {
@@ -46,16 +46,16 @@ export class AppState {
   }
 
   async login() {
-    await signInWithPopup(getAuth(app), provider);
+    await signInWithPopup(auth, googleAuthProvider);
 
-    console.log(getAuth(app).currentUser);
+    console.log(auth.currentUser);
 
     this.isAuthenticated = true;
     await this.fetchTodos();
   }
 
   async logout() {
-    await getAuth(app).signOut();
+    await auth.signOut();
     this.isAuthenticated = false;
   }
 
