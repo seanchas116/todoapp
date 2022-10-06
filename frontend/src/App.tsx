@@ -25,8 +25,8 @@ const App = observer(function App() {
       <main className="p-8">
         <div className="w-80 m-auto">
           <div className="flex gap-1 mb-4">
-            <input className="flex-1 h-8 border border-gray-300 rounded px-1" />
-            <button className="h-8 bg-blue-500 rounded text-white px-3 py-1">
+            <input className="flex-1 h-8 border border-gray-300 hover:border-gray-400 rounded px-1" />
+            <button className="h-8 bg-blue-500 hover:bg-blue-700 rounded text-white px-3 py-1">
               Add
             </button>
           </div>
