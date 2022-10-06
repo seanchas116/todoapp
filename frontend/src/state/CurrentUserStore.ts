@@ -44,6 +44,6 @@ export class CurrentUserStore {
   }
 
   private async refreshAfterLogin() {
-    await appState.todoStore.query.refetch();
+    await appState.todoStore.refreshAll();
   }
 }

@@ -11,7 +11,7 @@ interface Todo {
 }
 
 export class TodoStore {
-  readonly query = client.watchQuery({
+  private readonly query = client.watchQuery({
     query: gql`
       query {
         todos {
@@ -25,11 +25,19 @@ export class TodoStore {
     `,
   });
 
-  readonly todos = new QueryMobxView<Todo[]>(
+  readonly _todos = new QueryMobxView<Todo[]>(
     this.query,
     (result) => result.data.todos,
     []
   );
+
+  get todos(): Todo[] {
+    return this._todos.value;
+  }
+
+  async refreshAll() {
+    await this.query.refetch();
+  }
 
   async create(title: string) {
     await client.mutate({

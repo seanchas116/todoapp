@@ -26,7 +26,7 @@ export const TodoList = observer(function TodoList() {
         </div>
 
         <ul className="px-0.5">
-          {appState.todoStore.todos.value.map((todo) => (
+          {appState.todoStore.todos.map((todo) => (
             <li
               className={clsx("text-xl flex items-center gap-2", {
                 "line-through text-gray-400": todo.status === "done",
