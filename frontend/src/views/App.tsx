@@ -1,5 +1,4 @@
 import { observer } from "mobx-react-lite";
-import { clsx } from "clsx";
 import { appState } from "../state/AppState";
 import { TodoList } from "./TodoList";
 
