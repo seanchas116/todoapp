@@ -48,7 +48,6 @@ export class TodoStore {
   }
 
   async update(todo: Todo) {
-    console.log(todo);
     await client.mutate({
       mutation: gql`
         mutation {
