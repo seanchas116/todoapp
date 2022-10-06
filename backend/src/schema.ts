@@ -27,7 +27,12 @@ builder.objectType("Todo", {
       type: "String",
       resolve: (todo) => todo.createdAt.toISOString(),
     }),
+    updatedAt: t.field({
+      type: "String",
+      resolve: (todo) => todo.updatedAt.toISOString(),
+    }),
     title: t.exposeString("title"),
+    status: t.exposeString("status"),
   }),
 });
 

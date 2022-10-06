@@ -6,17 +6,17 @@ const App = observer(function App() {
     <div className="">
       <header className="p-4 flex items-center justify-between border-b border-gray-200">
         <h1 className="text-xl font-bold">Todo App</h1>
-        {appState.isAuthenticated ? (
+        {appState.currentUser.isAuthenticated ? (
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded"
-            onClick={() => appState.logout()}
+            onClick={() => appState.currentUser.logout()}
           >
             Sign Out
           </button>
         ) : (
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded"
-            onClick={() => appState.login()}
+            onClick={() => appState.currentUser.login()}
           >
             Sign In
           </button>
@@ -30,7 +30,15 @@ const App = observer(function App() {
               Add
             </button>
           </div>
+
           <ul className="px-0.5">
+            {appState.todos.todos.map((todo) => (
+              <li className="text-xl flex items-center gap-2 text-gray-900">
+                <input type="checkbox" />
+                {todo.title}
+              </li>
+            ))}
+
             <li className="text-xl flex items-center gap-2 text-gray-900">
               <input type="checkbox" />
               Todo 1
