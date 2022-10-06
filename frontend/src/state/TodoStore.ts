@@ -78,4 +78,8 @@ export class TodoStore {
       },
     });
   }
+
+  async clearCompleted() {
+    // TODO
+  }
 }

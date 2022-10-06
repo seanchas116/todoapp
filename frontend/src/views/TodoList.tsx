@@ -8,7 +8,7 @@ export const TodoList = observer(function TodoList() {
 
   return (
     <main className="p-8">
-      <div className="w-80 m-auto">
+      <div className="max-w-[640px] m-auto">
         <div className="flex gap-1 mb-4">
           <input
             className="flex-1 h-8 border border-gray-300 hover:border-gray-400 rounded px-1"
@@ -22,6 +22,14 @@ export const TodoList = observer(function TodoList() {
             }}
           >
             Add
+          </button>
+          <button
+            className="h-8 bg-gray-500 hover:bg-gray-700 rounded text-white px-3 py-1"
+            onClick={() => {
+              appState.todoStore.clearCompleted();
+            }}
+          >
+            Clear Completed
           </button>
         </div>
 
