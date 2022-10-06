@@ -46,4 +46,25 @@ export class Todos {
     });
     await this.query.refetch();
   }
+
+  async update(todo: Todo) {
+    console.log(todo);
+    await client.mutate({
+      mutation: gql`
+        mutation {
+          updateTodo(
+            id: ${JSON.stringify(todo.id)}
+            title: ${JSON.stringify(todo.title)}
+            status: ${JSON.stringify(todo.status)}
+          ) {
+            id
+            createdAt
+            updatedAt
+            title
+            status
+          }
+        }
+      `,
+    });
+  }
 }

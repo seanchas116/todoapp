@@ -33,7 +33,16 @@ export const TodoList = observer(function TodoList() {
                 "text-gray-900": todo.status === "pending",
               })}
             >
-              <input type="checkbox" checked={todo.status === "done"} />
+              <input
+                type="checkbox"
+                checked={todo.status === "done"}
+                onClick={() => {
+                  appState.todos.update({
+                    ...todo,
+                    status: todo.status === "done" ? "pending" : "done",
+                  });
+                }}
+              />
               {todo.title}
             </li>
           ))}

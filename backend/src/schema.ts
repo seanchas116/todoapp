@@ -22,7 +22,7 @@ builder.objectType("User", {
 
 builder.objectType("Todo", {
   fields: (t) => ({
-    id: t.exposeID("id"),
+    id: t.exposeInt("id"),
     createdAt: t.field({
       type: "String",
       resolve: (todo) => todo.createdAt.toISOString(),
