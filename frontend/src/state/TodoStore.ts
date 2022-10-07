@@ -60,12 +60,8 @@ export class TodoStore {
   async update(todo: Todo) {
     await client.mutate({
       mutation: gql`
-        mutation {
-          updateTodo(
-            id: ${JSON.stringify(todo.id)}
-            title: ${JSON.stringify(todo.title)}
-            status: ${JSON.stringify(todo.status)}
-          ) {
+        mutation updateTodo($id: Int!, $title: String!, $status: String!) {
+          updateTodo(id: $id, title: $title, status: $status) {
             id
             createdAt
             updatedAt
@@ -74,6 +70,11 @@ export class TodoStore {
           }
         }
       `,
+      variables: {
+        id: todo.id,
+        title: todo.title,
+        status: todo.status,
+      },
       optimisticResponse: {
         updateTodo: todo,
       },
