@@ -80,6 +80,13 @@ export class TodoStore {
   }
 
   async clearCompleted() {
-    // TODO
+    await client.mutate({
+      mutation: gql`
+        mutation {
+          deleteDoneTodos
+        }
+      `,
+    });
+    await this.query.refetch();
   }
 }

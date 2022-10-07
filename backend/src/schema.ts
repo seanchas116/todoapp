@@ -142,6 +142,23 @@ builder.mutationType({
         });
       },
     }),
+    deleteDoneTodos: t.field({
+      type: "Boolean",
+      resolve: async (_1, _2, context) => {
+        if (!context.currentUser) {
+          throw new Error("Not authenticated");
+        }
+
+        await prisma.todo.deleteMany({
+          where: {
+            userId: context.currentUser.uid,
+            status: TodoStatus.done,
+          },
+        });
+
+        return true;
+      },
+    }),
   }),
 });
 
