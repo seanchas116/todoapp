@@ -32,8 +32,13 @@ export class MobxQuery<T> {
     type: "loading",
   };
 
-  get value(): T | undefined {
+  get status(): Status<T> {
     this.atom.reportObserved();
+    return this._status;
+  }
+
+  get value(): T | undefined {
+    const { status } = this;
     if (this._status.type !== "success") {
       return undefined;
     }
