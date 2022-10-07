@@ -40,8 +40,8 @@ export class TodoStore {
   async create(title: string) {
     await client.mutate({
       mutation: gql`
-        mutation {
-          createTodo(title: "${title}") {
+        mutation createTodo($title: String!) {
+          createTodo(title: $title) {
             id
             createdAt
             updatedAt
@@ -50,6 +50,9 @@ export class TodoStore {
           }
         }
       `,
+      variables: {
+        title,
+      },
     });
     await this.query.refetch();
   }
