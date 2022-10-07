@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client/core";
 import { client } from "../util/apollo";
-import { QueryMobxView } from "../util/mobx";
+import { MobxQuery } from "../util/mobx";
 
 interface Todo {
   id: number;
@@ -25,14 +25,13 @@ export class TodoStore {
     `,
   });
 
-  readonly _todos = new QueryMobxView<Todo[]>(
+  readonly _todos = new MobxQuery<Todo[]>(
     this.query,
-    (result) => result.data.todos,
-    []
+    (result) => result.data.todos
   );
 
   get todos(): Todo[] {
-    return this._todos.value;
+    return this._todos.value ?? [];
   }
 
   async refreshAll() {
