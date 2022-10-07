@@ -2,7 +2,7 @@ import { ObservableQuery } from "@apollo/client";
 import { createAtom, IAtom } from "mobx";
 import { Subscription, Observable } from "zen-observable-ts";
 
-type Status =
+type Status<T> =
   | {
       type: "loading";
     }
@@ -12,13 +12,12 @@ type Status =
     }
   | {
       type: "success";
-      data: any;
+      data: T;
     };
 
 export class MobxQuery<T> {
-  constructor(query: ObservableQuery, mapper: (result: any) => T) {
+  constructor(query: ObservableQuery<T>) {
     this.query = query;
-    this.mapper = mapper;
     this.atom = createAtom(
       "MobxQuery",
       () => this.observe(),
@@ -26,11 +25,10 @@ export class MobxQuery<T> {
     );
   }
 
-  readonly query: ObservableQuery;
-  private readonly mapper: (result: any) => T;
+  readonly query: ObservableQuery<T>;
   private readonly atom: IAtom;
   private _subscription: Subscription | undefined;
-  private _status: Status = {
+  private _status: Status<T> = {
     type: "loading",
   };
 
@@ -39,7 +37,7 @@ export class MobxQuery<T> {
     if (this._status.type !== "success") {
       return undefined;
     }
-    return this.mapper(this._status.data);
+    return this._status.data;
   }
 
   private observe() {
