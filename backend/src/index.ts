@@ -8,7 +8,7 @@ const server = createServer({
   context: async ({ req }): Promise<Context> => ({
     currentUser: await getUserFromAuthHeader(req.headers.authorization),
   }),
-  //maskedErrors: false,
+  maskedErrors: false,
 });
 
 server.start();
