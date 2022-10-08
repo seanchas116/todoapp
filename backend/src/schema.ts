@@ -69,13 +69,18 @@ builder.mutationType({
         }
         const id = context.currentUser.uid;
         const name = context.currentUser.name;
+        const avatar = context.currentUser.avatar;
 
         return prisma.user.upsert({
           where: { id },
-          update: {},
+          update: {
+            name,
+            avatar,
+          },
           create: {
             id,
             name,
+            avatar,
           },
         });
       },

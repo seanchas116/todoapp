@@ -24,5 +24,6 @@ export async function getUserFromAuthHeader(
     uid: decoded.uid,
     name: decoded.name,
     email: decoded.email,
+    avatar: decoded.picture,
   };
 }
