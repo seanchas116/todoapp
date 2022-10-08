@@ -18,6 +18,9 @@ export class AppState {
         token,
       },
     });
+    this.socket.on("message", (msg) => {
+      console.log(msg);
+    });
   }
 
   destroySocket() {

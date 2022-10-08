@@ -35,6 +35,12 @@ async function init() {
 
   io.on("connection", (socket) => {
     console.log("connect socket", socket.id);
+
+    const userId = currentUserForSocket.get(socket)?.uid;
+    if (userId) {
+      socket.join(userId);
+      io.to(userId).emit("message", "hello");
+    }
   });
 }
 
