@@ -38,10 +38,6 @@ builder.objectType("Todo", {
 
 builder.queryType({
   fields: (t) => ({
-    users: t.field({
-      type: ["User"],
-      resolve: async () => prisma.user.findMany(),
-    }),
     todos: t.field({
       type: ["Todo"],
       resolve: async (_1, _2, context) => {
