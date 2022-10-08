@@ -48,11 +48,11 @@ export class MobxQuery<T> {
   private observe() {
     this._subscription = this.query.subscribe(
       (result) => {
-        this.atom.reportChanged();
         this._status = {
           type: "success",
           data: result.data,
         };
+        this.atom.reportChanged();
       },
       (error) => {
         // reobserve
@@ -60,11 +60,11 @@ export class MobxQuery<T> {
         this._subscription?.unsubscribe();
         this.observe();
 
-        this.atom.reportChanged();
         this._status = {
           type: "error",
           error,
         };
+        this.atom.reportChanged();
       }
     );
   }
