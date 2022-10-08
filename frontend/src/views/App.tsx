@@ -7,13 +7,19 @@ const App = observer(function App() {
     <div className="">
       <header className="p-4 flex items-center justify-between border-b border-gray-200">
         <h1 className="text-xl font-bold">Todo App</h1>
-        {appState.currentUserStore.isAuthenticated ? (
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded"
-            onClick={() => appState.currentUserStore.logout()}
-          >
-            Sign Out
-          </button>
+        {appState.currentUserStore.user ? (
+          <div className="flex items-center gap-2">
+            <img
+              className="w-8 h-8 rounded-full"
+              src={appState.currentUserStore.user.avatar ?? undefined}
+            />
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded"
+              onClick={() => appState.currentUserStore.logout()}
+            >
+              Sign Out
+            </button>
+          </div>
         ) : (
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded"

@@ -17,6 +17,9 @@ builder.objectType("User", {
     name: t.exposeString("name", {
       nullable: true,
     }),
+    avatar: t.exposeString("avatar", {
+      nullable: true,
+    }),
   }),
 });
 
