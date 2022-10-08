@@ -1,8 +1,10 @@
 import { createServer } from "@graphql-yoga/node";
-import { Context } from "./context";
+import { Context, CurrentUser } from "./context";
 import { getUserFromAuthHeader } from "./firebase";
 import { schema } from "./schema";
-import { Server as SocketIOServer } from "socket.io";
+import { Server as SocketIOServer, Socket } from "socket.io";
+
+const currentUserForSocket = new WeakMap<Socket, CurrentUser | undefined>();
 
 async function init() {
   const server = createServer({
@@ -19,6 +21,15 @@ async function init() {
     cors: {
       origin: "http://localhost:5173",
     },
+  });
+
+  io.use(async (socket, next) => {
+    const token = socket.handshake.auth.token;
+    if (token) {
+      const currentUser = await getUserFromAuthHeader(`Bearer ${token}`);
+      currentUserForSocket.set(socket, currentUser);
+    }
+    next();
   });
 
   io.on("connection", (socket) => {
