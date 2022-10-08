@@ -2,6 +2,8 @@ import { CurrentUserStore } from "./CurrentUserStore";
 import { TodoStore } from "./TodoStore";
 import { io, Socket } from "socket.io-client";
 import { auth } from "../util/firebase";
+import { client } from "../util/apollo";
+import { gql } from "@apollo/client";
 
 export class AppState {
   constructor() {}
@@ -23,6 +25,24 @@ export class AppState {
     });
     this.socket.on("updateTodo", (todo) => {
       console.log("updateTodo", todo);
+
+      client.writeQuery({
+        query: gql`
+          query {
+            todo(id: "${todo.id}") {
+              id
+              title
+              status
+            }
+          }
+        `,
+        data: {
+          todo: {
+            ...todo,
+            __typename: "Todo",
+          },
+        },
+      });
     });
     this.socket.on("deleteTodo", (todo) => {
       console.log("deleteTodo", todo);
