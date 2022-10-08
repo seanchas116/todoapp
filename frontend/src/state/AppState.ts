@@ -16,6 +16,7 @@ export class AppState {
     const token = await auth.currentUser?.getIdToken();
 
     this.socket = io("http://localhost:4000", {
+      transports: ["websocket"],
       auth: {
         token,
       },
