@@ -39,10 +39,10 @@ export class MobxQuery<T> {
 
   get value(): T | undefined {
     const { status } = this;
-    if (this._status.type !== "success") {
+    if (status.type !== "success") {
       return undefined;
     }
-    return this._status.data;
+    return status.data;
   }
 
   private observe() {
