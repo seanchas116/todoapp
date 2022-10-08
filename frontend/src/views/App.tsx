@@ -23,7 +23,7 @@ const App = observer(function App() {
           </button>
         )}
       </header>
-      <TodoList />
+      {appState.currentUserStore.isAuthenticated ? <TodoList /> : null}
     </div>
   );
 });
