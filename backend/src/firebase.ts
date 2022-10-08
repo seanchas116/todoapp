@@ -19,7 +19,6 @@ export async function getUserFromAuthHeader(
   const token = authHeader.replace("Bearer ", "");
 
   const decoded = await admin.auth().verifyIdToken(token);
-  console.log(decoded);
 
   return {
     uid: decoded.uid,
