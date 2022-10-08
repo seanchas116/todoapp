@@ -2,6 +2,7 @@ import SchemaBuilder from "@pothos/core";
 import { Todo, TodoStatus, User } from "@prisma/client";
 import { Context } from "./context";
 import { prisma } from "./prisma";
+import { getSocketIO } from "./socketio";
 
 const builder = new SchemaBuilder<{
   Objects: {
@@ -98,12 +99,16 @@ builder.mutationType({
           throw new Error("Not authenticated");
         }
 
-        return prisma.todo.create({
+        const todo = await prisma.todo.create({
           data: {
             title,
             userId: context.currentUser.uid,
           },
         });
+        const io = getSocketIO();
+        io.to(context.currentUser.uid).emit("message", todo);
+
+        return todo;
       },
     }),
     updateTodo: t.field({
