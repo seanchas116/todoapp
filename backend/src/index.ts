@@ -1,10 +1,8 @@
 import { createServer } from "@graphql-yoga/node";
-import { Context, CurrentUser } from "./context";
+import { Context } from "./context";
 import { getUserFromAuthHeader } from "./firebase";
 import { schema } from "./schema";
-import { Server as SocketIOServer, Socket } from "socket.io";
-
-const currentUserForSocket = new WeakMap<Socket, CurrentUser | undefined>();
+import { initSocketIO } from "./socketio";
 
 async function init() {
   const server = createServer({
@@ -17,31 +15,7 @@ async function init() {
 
   const httpServer = await server.start();
 
-  const io = new SocketIOServer(httpServer, {
-    cors: {
-      origin: "http://localhost:5173",
-    },
-  });
-
-  io.use(async (socket, next) => {
-    const token = socket.handshake.auth.token;
-    if (token) {
-      const currentUser = await getUserFromAuthHeader(`Bearer ${token}`);
-      currentUserForSocket.set(socket, currentUser);
-      console.log(currentUser);
-    }
-    next();
-  });
-
-  io.on("connection", (socket) => {
-    console.log("connect socket", socket.id);
-
-    const userId = currentUserForSocket.get(socket)?.uid;
-    if (userId) {
-      socket.join(userId);
-      io.to(userId).emit("message", "hello");
-    }
-  });
+  initSocketIO(httpServer);
 }
 
 init();
