@@ -28,6 +28,7 @@ async function init() {
     if (token) {
       const currentUser = await getUserFromAuthHeader(`Bearer ${token}`);
       currentUserForSocket.set(socket, currentUser);
+      console.log(currentUser);
     }
     next();
   });

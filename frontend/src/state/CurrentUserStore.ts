@@ -19,6 +19,7 @@ export class CurrentUserStore {
     auth.onAuthStateChanged(async (user) => {
       await this.upsertUser();
       this.refreshAfterLogin();
+      appState.createSocket();
     });
   }
 
