@@ -20,14 +20,15 @@ export class AppState {
         token,
       },
     });
-    this.socket.on("createTodo", (todo) => {
-      console.log("createTodo", todo);
+    this.socket.on("createTodo", (todos) => {
+      console.log("createTodo", todos);
     });
-    this.socket.on("updateTodo", (todo) => {
-      console.log("updateTodo", todo);
+    this.socket.on("updateTodo", (todos) => {
+      console.log("updateTodo", todos);
 
-      client.writeQuery({
-        query: gql`
+      for (const todo of todos) {
+        client.writeQuery({
+          query: gql`
           query {
             todo(id: "${todo.id}") {
               id
@@ -36,16 +37,18 @@ export class AppState {
             }
           }
         `,
-        data: {
-          todo: {
-            ...todo,
-            __typename: "Todo",
+          data: {
+            todo: {
+              ...todo,
+              __typename: "Todo",
+            },
           },
-        },
-      });
+        });
+      }
     });
-    this.socket.on("deleteTodo", (todo) => {
-      console.log("deleteTodo", todo);
+
+    this.socket.on("deleteTodo", (todos) => {
+      console.log("deleteTodo", todos);
     });
   }
 
