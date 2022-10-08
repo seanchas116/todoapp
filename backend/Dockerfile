@@ -4,5 +4,4 @@ COPY . .
 RUN npm install
 RUN npm run build
 RUN npm run prisma:generate
-EXPOSE 4000
 CMD [ "node", "dist/index.js" ]

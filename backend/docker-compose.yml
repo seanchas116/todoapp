@@ -13,6 +13,7 @@ services:
   app:
     build: .
     environment:
+      PORT: 4000
       DATABASE_URL: postgresql://postgres:password@postgres
     depends_on:
       - postgres
