@@ -105,9 +105,7 @@ builder.mutationType({
             userId: context.currentUser.uid,
           },
         });
-        const io = getSocketIO();
-        io.to(context.currentUser.uid).emit("message", todo);
-
+        getSocketIO().to(context.currentUser.uid).emit("createTodo", todo);
         return todo;
       },
     }),
@@ -127,13 +125,15 @@ builder.mutationType({
           throw new Error("Invalid status");
         }
 
-        return prisma.todo.update({
+        const todo = await prisma.todo.update({
           where: { id },
           data: {
             title,
             status: status as TodoStatus,
           },
         });
+        getSocketIO().to(context.currentUser.uid).emit("updateTodo", todo);
+        return todo;
       },
     }),
     deleteTodo: t.field({
@@ -146,9 +146,11 @@ builder.mutationType({
           throw new Error("Not authenticated");
         }
 
-        return prisma.todo.delete({
+        const todo = await prisma.todo.delete({
           where: { id },
         });
+        getSocketIO().to(context.currentUser.uid).emit("deleteTodo", todo);
+        return todo;
       },
     }),
     deleteDoneTodos: t.field({

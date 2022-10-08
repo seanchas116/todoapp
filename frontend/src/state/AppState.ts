@@ -18,8 +18,14 @@ export class AppState {
         token,
       },
     });
-    this.socket.on("message", (msg) => {
-      console.log(msg);
+    this.socket.on("createTodo", (todo) => {
+      console.log("createTodo", todo);
+    });
+    this.socket.on("updateTodo", (todo) => {
+      console.log("updateTodo", todo);
+    });
+    this.socket.on("deleteTodo", (todo) => {
+      console.log("deleteTodo", todo);
     });
   }
 
