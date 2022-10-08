@@ -2,8 +2,6 @@ import { CurrentUserStore } from "./CurrentUserStore";
 import { TodoStore } from "./TodoStore";
 import { io, Socket } from "socket.io-client";
 import { auth } from "../util/firebase";
-import { client } from "../util/apollo";
-import { gql } from "@apollo/client";
 
 export class AppState {
   constructor() {}
