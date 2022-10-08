@@ -20,35 +20,8 @@ export class AppState {
         token,
       },
     });
-    this.socket.on("createTodo", (todos) => {
-      console.log("createTodo", todos);
-    });
-    this.socket.on("updateTodo", (todos) => {
-      console.log("updateTodo", todos);
-
-      for (const todo of todos) {
-        client.writeQuery({
-          query: gql`
-          query {
-            todo(id: "${todo.id}") {
-              id
-              title
-              status
-            }
-          }
-        `,
-          data: {
-            todo: {
-              ...todo,
-              __typename: "Todo",
-            },
-          },
-        });
-      }
-    });
-
-    this.socket.on("deleteTodo", (todos) => {
-      console.log("deleteTodo", todos);
+    this.socket.on("todos", () => {
+      this.todoStore.refreshAll();
     });
   }
 

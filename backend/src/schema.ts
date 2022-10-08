@@ -105,7 +105,7 @@ builder.mutationType({
             userId: context.currentUser.uid,
           },
         });
-        getSocketIO().to(context.currentUser.uid).emit("createTodo", [todo]);
+        getSocketIO().to(context.currentUser.uid).emit("todos");
         return todo;
       },
     }),
@@ -132,7 +132,7 @@ builder.mutationType({
             status: status as TodoStatus,
           },
         });
-        getSocketIO().to(context.currentUser.uid).emit("updateTodo", [todo]);
+        getSocketIO().to(context.currentUser.uid).emit("todos");
         return todo;
       },
     }),
@@ -149,7 +149,7 @@ builder.mutationType({
         const todo = await prisma.todo.delete({
           where: { id },
         });
-        getSocketIO().to(context.currentUser.uid).emit("deleteTodo", [todo]);
+        getSocketIO().to(context.currentUser.uid).emit("todos");
         return todo;
       },
     }),
@@ -166,7 +166,7 @@ builder.mutationType({
             status: TodoStatus.done,
           },
         });
-
+        getSocketIO().to(context.currentUser.uid).emit("todos");
         return true;
       },
     }),
