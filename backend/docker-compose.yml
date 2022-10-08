@@ -10,6 +10,13 @@ services:
       - postgres:/var/lib/postgresql/data
     ports:
       - '5432:5432'
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes: 
+      - redis:/data
   # app:
   #   build: .
   #   environment:
@@ -21,3 +28,4 @@ services:
   #     - "4000:4000"
 volumes:
   postgres:
+  redis:
