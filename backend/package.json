@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "dev": "ts-node-dev --respawn src/index.ts",
+    "dev": "NODE_ENV=development ts-node-dev --respawn src/index.ts",
     "graphql:codegen": "graphql-codegen",
     "prisma:deploy": "prisma migrate deploy",
     "prisma:generate": "prisma generate",

@@ -1,10 +1,13 @@
 import admin from "firebase-admin";
 import { CurrentUser } from "./context";
 
-// TODO: do not pass credentials in production (Cloud Run)
-admin.initializeApp({
-  credential: admin.credential.cert(require("../service-account.json")),
-});
+if (process.env.NODE_ENV === "development") {
+  admin.initializeApp({
+    credential: admin.credential.cert(require("../service-account.json")),
+  });
+} else {
+  admin.initializeApp();
+}
 
 export async function getUserFromAuthHeader(
   authHeader?: string
