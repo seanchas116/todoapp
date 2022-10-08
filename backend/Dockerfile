@@ -4,4 +4,4 @@ COPY . .
 RUN npm install
 RUN npm run build
 RUN npm run prisma:generate
-CMD [ "node", "dist/index.js" ]
+CMD [ "sh", "start.sh" ]
