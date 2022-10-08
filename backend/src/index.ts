@@ -15,7 +15,7 @@ async function init() {
 
   const httpServer = await server.start();
 
-  initSocketIO(httpServer);
+  await initSocketIO(httpServer);
 }
 
 init();

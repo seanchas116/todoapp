@@ -2,6 +2,8 @@ import { CurrentUser } from "./context";
 import { getUserFromAuthHeader } from "./firebase";
 import { Server as SocketIOServer, Socket } from "socket.io";
 import { Server } from "http";
+import { createAdapter } from "@socket.io/redis-adapter";
+import { createClient } from "redis";
 
 const currentUserForSocket = new WeakMap<Socket, CurrentUser | undefined>();
 
@@ -14,12 +16,18 @@ export function getSocketIO(): SocketIOServer {
   return io;
 }
 
-export function initSocketIO(httpServer: Server) {
+export async function initSocketIO(httpServer: Server) {
   io = new SocketIOServer(httpServer, {
     cors: {
       origin: "http://localhost:5173",
     },
   });
+
+  const pubClient = createClient({ url: "redis://localhost:6379" });
+  const subClient = pubClient.duplicate();
+
+  await Promise.all([pubClient.connect(), subClient.connect()]);
+  io.adapter(createAdapter(pubClient, subClient));
 
   io.use(async (socket, next) => {
     const token = socket.handshake.auth.token;
