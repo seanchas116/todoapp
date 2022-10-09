@@ -5,6 +5,8 @@ import { Server } from "http";
 import { createAdapter } from "@socket.io/redis-adapter";
 import { createClient } from "redis";
 
+console.log(process.env);
+
 const currentUserForSocket = new WeakMap<Socket, CurrentUser | undefined>();
 
 let io: SocketIOServer | undefined;
@@ -23,7 +25,7 @@ export async function initSocketIO(httpServer: Server) {
     },
   });
 
-  const pubClient = createClient({ url: "redis://localhost:6379" });
+  const pubClient = createClient({ url: process.env.REDIS_URL });
   const subClient = pubClient.duplicate();
 
   await Promise.all([pubClient.connect(), subClient.connect()]);
