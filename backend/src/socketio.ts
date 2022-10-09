@@ -33,7 +33,7 @@ export async function initSocketIO(httpServer: Server) {
   });
 
   await Promise.all([pubClient.connect(), subClient.connect()]);
-  //io.adapter(createAdapter(pubClient, subClient));
+  io.adapter(createAdapter(pubClient, subClient));
 
   io.use(async (socket, next) => {
     const token = socket.handshake.auth.token;
