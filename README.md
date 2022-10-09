@@ -9,6 +9,7 @@ Based on [Apollo Server と Prisma ではじめる GraphQL API 開発入門](htt
 - Firebase for authentication
 - Google Cloud Run for backend server
 - Supabase for Postgres database
+- Upstash for Redis pub/sub
 - Vercel for frontend hosting
 
 ## Setup (local)
