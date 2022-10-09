@@ -5,8 +5,6 @@ import { Server } from "http";
 import { createAdapter } from "@socket.io/redis-adapter";
 import { createClient } from "redis";
 
-console.log(process.env);
-
 const currentUserForSocket = new WeakMap<Socket, CurrentUser | undefined>();
 
 let io: SocketIOServer | undefined;
