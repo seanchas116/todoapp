@@ -2,6 +2,7 @@ import { CurrentUserStore } from "./CurrentUserStore";
 import { TodoStore } from "./TodoStore";
 import { io, Socket } from "socket.io-client";
 import { auth } from "../util/firebase";
+import { backendURL } from "../constants";
 
 export class AppState {
   constructor() {}
@@ -13,7 +14,7 @@ export class AppState {
   async createSocket() {
     const token = await auth.currentUser?.getIdToken();
 
-    this.socket = io("http://localhost:4000", {
+    this.socket = io(backendURL, {
       transports: ["websocket"],
       auth: {
         token,

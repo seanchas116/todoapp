@@ -4,19 +4,11 @@ import {
   InMemoryCache,
 } from "@apollo/client/core";
 import { setContext } from "@apollo/client/link/context";
+import { backendURL } from "../constants";
 import { auth } from "./firebase";
 
-console.log(process.env.NODE_ENV);
-
-let uri: string;
-if (process.env.NODE_ENV === "development") {
-  uri = "http://localhost:4000/graphql";
-} else {
-  uri = "https://todoapp-xed76c3trq-uc.a.run.app/graphql";
-}
-
 const httpLink = createHttpLink({
-  uri,
+  uri: `${backendURL}/graphql`,
 });
 
 const authLink = setContext(async (_, { headers }) => {
