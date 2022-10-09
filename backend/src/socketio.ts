@@ -25,6 +25,12 @@ export async function initSocketIO(httpServer: Server) {
 
   const pubClient = createClient({ url: process.env.REDIS_URL });
   const subClient = pubClient.duplicate();
+  pubClient.on("error", (err) => {
+    console.error(err);
+  });
+  subClient.on("error", (err) => {
+    console.error(err);
+  });
 
   await Promise.all([pubClient.connect(), subClient.connect()]);
   io.adapter(createAdapter(pubClient, subClient));
