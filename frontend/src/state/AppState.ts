@@ -17,6 +17,7 @@ export class AppState {
     this.socket = io(backendURL, {
       transports: ["websocket"],
       auth: {
+        // TODO: reconnect with new token when it expires
         token,
       },
     });
