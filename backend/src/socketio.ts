@@ -36,12 +36,16 @@ export async function initSocketIO(httpServer: Server) {
   io.adapter(createAdapter(pubClient, subClient));
 
   io.use(async (socket, next) => {
-    const token = socket.handshake.auth.token;
-    if (token) {
-      const currentUser = await getUserFromAuthHeader(`Bearer ${token}`);
-      currentUserForSocket.set(socket, currentUser);
+    try {
+      const token = socket.handshake.auth.token;
+      if (token) {
+        const currentUser = await getUserFromAuthHeader(`Bearer ${token}`);
+        currentUserForSocket.set(socket, currentUser);
+      }
+      next();
+    } catch (err) {
+      next(err as any);
     }
-    next();
   });
 
   io.on("connection", (socket) => {
