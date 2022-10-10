@@ -1,8 +1,9 @@
 import { CurrentUserStore } from "./CurrentUserStore";
 import { TodoStore } from "./TodoStore";
 import { io, Socket } from "socket.io-client";
-import { auth } from "../util/firebase";
+import { auth, getIDToken } from "../util/firebase";
 import { backendURL } from "../constants";
+import { getIdToken } from "firebase/auth";
 
 export class AppState {
   constructor() {}
@@ -12,13 +13,12 @@ export class AppState {
   socket: Socket | undefined;
 
   async createSocket() {
-    const token = await auth.currentUser?.getIdToken();
-
     this.socket = io(backendURL, {
       transports: ["websocket"],
-      auth: {
-        // TODO: reconnect with new token when it expires
-        token,
+      auth: (cb) => {
+        getIDToken().then((token) => {
+          cb({ token });
+        });
       },
     });
     this.socket.on("todos", () => {

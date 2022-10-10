@@ -14,3 +14,7 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
+
+export async function getIDToken(): Promise<string | undefined> {
+  return await auth.currentUser?.getIdToken();
+}

@@ -5,14 +5,14 @@ import {
 } from "@apollo/client/core";
 import { setContext } from "@apollo/client/link/context";
 import { backendURL } from "../constants";
-import { auth } from "./firebase";
+import { getIDToken } from "./firebase";
 
 const httpLink = createHttpLink({
   uri: `${backendURL}/graphql`,
 });
 
 const authLink = setContext(async (_, { headers }) => {
-  const token = await auth.currentUser?.getIdToken();
+  const token = await getIDToken();
   return {
     headers: {
       ...headers,
